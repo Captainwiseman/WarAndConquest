@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>War</title>
+    <script src="engine/phaser.min.js"></script>
+    <script src="scripts/globalVariables.js"></script>
+    <script src="scripts/cardDeck.js"></script>
+    <script src="scripts/preload.js"></script>
+    <script src="scripts/mainMenu.js"></script>
+    <script src="scripts/GamePlay.js"></script>
+</head>
+<body>
+    <script>
+    let config = {
+        type: Phaser.AUTO,
+        width: 1280,
+        height: 920,
+        scene: warGame.scenes
+    };
+
+    let game = new Phaser.Game(config);
+    </script>
+</body>
+</html>
