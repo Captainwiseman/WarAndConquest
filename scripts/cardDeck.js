@@ -1,115 +1,56 @@
-let completeCardDeck = [];
-
-deckOptions = {
-    deckSize: 1
-}
-
-createCardDeck = () => {
-    let cardDeck = [];
-    let cardNumber = 1;
-    while (cardNumber <= 15) {
-        cardDeck.push(cardNumber);
-        cardNumber++;
+class CardDeck {
+    constructor(config) {
+        this.deckOptions = {};
+        this.deckOptions.numberOfDecks = config.numberOfDecks;
+        this.deckOptions.oneCardSet = config.oneCardSet;
+        this.deckOptions.cardBacks = config.cardBacks;
+        this.deck = this.generateCardDeck();
+        
     }
-    return cardDeck;
-}
-shuffleCardDeck = (cardDeck) => {
-    let currentIndex = cardDeck.length,
-        temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
+    shuffleCardDeck(cardDeck) {
+        // Shuffling the deck by going through all the deck from the last card to the first
+        //and swiping it with another card from the deck
 
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
+        let cardToShuffle = cardDeck.length,
+            temporaryValue, randomIndex;
 
-        // And swap it with the current element.
-        temporaryValue = cardDeck[currentIndex];
-        cardDeck[currentIndex] = cardDeck[randomIndex];
-        cardDeck[randomIndex] = temporaryValue;
+        while (cardToShuffle !== 0) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * cardDeck.length);
+            cardToShuffle -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = cardDeck[cardToShuffle];
+            cardDeck[cardToShuffle] = cardDeck[randomIndex];
+            cardDeck[randomIndex] = temporaryValue;
+        }
+        return cardDeck;
     }
-    return cardDeck;
-}
 
-createGameCardDeck = (config) => {
-    for (let i = 0; i < config.deckSize; i++) {
-        // let cardDeck = createCardDeck();
-        completeCardDeck.push(...shuffleCardDeck(oneCardDeck))
+    generateCardDeck() {
+        let cardDeck = []
+        for (let i = 0; i < this.deckOptions.numberOfDecks; i++) {
+            cardDeck.push(...this.shuffleCardDeck(this.deckOptions.oneCardSet));
+        }
+        return this.shuffleCardDeck(cardDeck);
     }
-    console.log(completeCardDeck)
-}
 
-let oneCardDeck = [
-    "10_of_clubs",
-    "10_of_diamonds",
-    "10_of_hearts",
-    "10_of_spades",
-    "2_of_clubs",
-    "2_of_diamonds",
-    "2_of_hearts",
-    "2_of_spades",
-    "3_of_clubs",
-    "3_of_diamonds",
-    "3_of_hearts",
-    "3_of_spades",
-    "4_of_clubs",
-    "4_of_diamonds",
-    "4_of_hearts",
-    "4_of_spades",
-    "5_of_clubs",
-    "5_of_diamonds",
-    "5_of_hearts",
-    "5_of_spades",
-    "6_of_clubs",
-    "6_of_diamonds",
-    "6_of_hearts",
-    "6_of_spades",
-    "7_of_clubs",
-    "7_of_diamonds",
-    "7_of_hearts",
-    "7_of_spades",
-    "8_of_clubs",
-    "8_of_diamonds",
-    "8_of_hearts",
-    "8_of_spades",
-    "9_of_clubs",
-    "9_of_diamonds",
-    "9_of_hearts",
-    "9_of_spades",
-    "ace_of_clubs",
-    "ace_of_diamonds",
-    "ace_of_hearts",
-    "ace_of_spades",
-    "ace_of_spades2",
-    "black_joker",
-    "jack_of_clubs",
-    "jack_of_clubs2",
-    "jack_of_diamonds",
-    "jack_of_diamonds2",
-    "jack_of_hearts",
-    "jack_of_hearts2",
-    "jack_of_spades",
-    "jack_of_spades2",
-    "king_of_clubs",
-    "king_of_clubs2",
-    "king_of_diamonds",
-    "king_of_diamonds2",
-    "king_of_hearts",
-    "king_of_hearts2",
-    "king_of_spades",
-    "king_of_spades2",
-    "queen_of_clubs",
-    "queen_of_clubs2",
-    "queen_of_diamonds",
-    "queen_of_diamonds2",
-    "queen_of_hearts",
-    "queen_of_hearts2",
-    "queen_of_spades",
-    "queen_of_spades2"
-];
+    drawACard() {
+        let topCard = this.deck.length - 1;
+        let drawnCard = {
+            card: this.deck[topCard],
+            lastCard: false
+        };
+        console.log("Before", this.deck.length);
+        this.deck.splice(topCard, 1);
+        console.log("After", this.deck.length);
+        console.log(this.deck)
+        if (this.deck.length === 0) {
+            drawnCard.lastCard = true;
+        }
+        return drawnCard;
+    }
 
-let cardBacks = [
-    "cardBack"
-]
-
-createGameCardDeck(deckOptions);
+};

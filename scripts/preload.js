@@ -7,11 +7,11 @@ var preloadState = new Phaser.Class({
     },
     preload: function () {
         // Preload images for this state
-        for (i = 0; i < oneCardDeck.length; i++) { //Load all the cards
-            this.load.image(oneCardDeck[i], `assets/Cards/${oneCardDeck[i]}.png`);
+        for (i = 0; i < files.cards.oneSet.length; i++) { //Load all the cards
+            this.load.image(files.cards.oneSet[i], `assets/Cards/${files.cards.oneSet[i]}.png`);
         }
-        for (i = 0; i < cardBacks.length; i++) {
-            this.load.image(cardBacks[i], `assets/Cards/${cardBacks[i]}.png`);
+        for (i = 0; i < files.cards.back.length; i++) {
+            this.load.image(files.cards.back[i], `assets/Cards/${files.cards.back[i]}.png`);
         }
 
     },

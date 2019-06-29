@@ -6,29 +6,50 @@ var gamePlayState = new Phaser.Class({
             key: 'GamePlay'
         });
     },
-    tableStats: {
-        playerCardValue: 0,
-        enemyCardValue: 0
+    gameConfig: {
+        numberOfDecks: 1,
+        oneCardSet: files.cards.oneSet,
+        cardBacks: files.cards.cardBacks
+    },
+    table: {
+        cardDeck: [],
+        human: {
+            self: "human",
+            currentValue: 0,
+            cards: [],
+            earnedCards: []
+        },
+        ai: {
+            self: "ai",
+            currentValue: 0,
+            cards: [],
+            earnedCards: []
+        }
     },
 
     preload: function () {
         // Preload images for this state
+
     },
 
     create: function () {
         // Create objects
         console.log("GamePlay");
-
-        let cardDeck = this.add.sprite(config.width / 1.5, config.height / 1.5, cardBacks[0]).setInteractive();
-        cardDeck.scaleY = 0.2;
-        cardDeck.scaleX = 0.2;
-        cardDeck.on('pointerdown', () => {
-            let drawnCard = drawACard();
-            console.log(drawnCard);
-            let card = this.add.sprite(config.width / 2, config.height / 2, drawnCard);
+        // Creating game card deck
+        this.table.cardDeck = new CardDeck(this.gameConfig);
+        let playerActiveCardDeck = this.add.sprite(config.width / 1.5, config.height / 1.5, files.cards.back[0]).setInteractive();
+        playerActiveCardDeck.scaleY = 0.2;
+        playerActiveCardDeck.scaleX = 0.2;
+        playerActiveCardDeck.on('pointerdown', () => {
+            let drawnCard = this.table.cardDeck.drawACard();
+            console.log(drawnCard.card);
+            if (drawnCard.lastCard === true) {
+                playerActiveCardDeck.destroy();
+            }
+            let card = this.add.sprite(config.width / 2, config.height / 2, drawnCard.card);
             card.scaleY = 0.2;
             card.scaleX = 0.2;
-        })
+        });
     },
 
     update: function () {
@@ -36,15 +57,5 @@ var gamePlayState = new Phaser.Class({
     }
 });
 
-function drawACard() {
-    let cardIndex = Math.floor((Math.random() * completeCardDeck.length));
-    console.log(cardIndex)
-    console.log("Before", completeCardDeck.length);
-    completeCardDeck.splice(cardIndex, 1);
-    console.log("After", completeCardDeck.length);
-    console.log(completeCardDeck)
-    console.log(completeCardDeck[cardIndex])
-    return completeCardDeck[cardIndex];
-}
 // Add scene to list of scenes
 warGame.scenes.push(gamePlayState);
