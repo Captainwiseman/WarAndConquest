@@ -2,6 +2,6 @@
   "name": "WarAndConquest",
   "version": "0.01",
   "dependencies": {
-    "phaser": "^3.17.0"
+    "phaser": "^3.55.2"
   }
 }
